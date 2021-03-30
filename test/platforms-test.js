@@ -10,10 +10,24 @@ describe("Platforms", function () {
 
     await platform.deployed();
 
-    await platform.newPlatform();
+    await platform.newPlatform("dev");
     const accounts = await ethers.getSigners();
     const address = accounts[0].address;
-    expect(await platform.platformOwners(1)).to.equal(address);
+    expect(await platform.getOwner(1)).to.equal(address);
+  });
+
+  it("Should change owner", async function () {
+    const Platform = await ethers.getContractFactory("ZoraPlatforms");
+    const platform = await Platform.deploy();
+
+    await platform.deployed();
+
+    await platform.newPlatform("dev");
+    const accounts = await ethers.getSigners();
+    const newOwner = accounts[1].address;
+
+    await platform.changeOwner(1, newOwner);
+    expect(await platform.getOwner(1)).to.equal(newOwner);
   });
 
   it("Should add tokens", async function () {
@@ -22,7 +36,7 @@ describe("Platforms", function () {
 
     await platform.deployed();
 
-    await platform.newPlatform();
+    await platform.newPlatform("dev");
     const platformId = 1;
 
     await platform.addToken(1234, platformId);
