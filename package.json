@@ -9,6 +9,8 @@
     "hardhat": "^2.1.2"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.0.0"
+    "@eth-optimism/smock": "^1.0.1",
+    "@openzeppelin/contracts": "^4.0.0",
+    "dotenv": "^8.2.0"
   }
 }

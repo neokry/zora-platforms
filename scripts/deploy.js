@@ -14,12 +14,28 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Platforms = await hre.ethers.getContractFactory("ZoraPlatforms");
-  const platforms = await Platforms.deploy();
+  const ZoraMediaAddress = "0x7C2668BD0D3c050703CEcC956C11Bd520c26f7d4";
+  const Platform = await hre.ethers.getContractFactory("Platform");
+  const platform = await Platform.deploy();
 
-  await platforms.deployed();
+  await platform.deployed();
 
-  console.log("Platforms deployed to:", platforms.address);
+  console.log("Platform deployed to:", platform.address);
+
+  const PlatformFactory = await hre.ethers.getContractFactory(
+    "PlatformFactory"
+  );
+  const platformFactory = await PlatformFactory.deploy(
+    platform.address,
+    ZoraMediaAddress
+  );
+
+  await platformFactory.deployed();
+
+  console.log("Platform factory deployed to:", platformFactory.address);
+
+  //RINKEBY
+  //0x95b425523A4936ef1C6438C911573A9a78Ca4337
 }
 
 // We recommend this pattern to be able to use async/await everywhere
