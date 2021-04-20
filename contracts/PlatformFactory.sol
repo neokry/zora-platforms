@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.0;
+pragma solidity 0.6.8;
 
 import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -30,7 +30,7 @@ contract PlatformFactory is Ownable {
   /**
   * @notice On deployment, set the media contract and platform contract addresses
   */
-  constructor(address _basePlatformAddress, address _zoraMediaAddress) {
+  constructor(address _basePlatformAddress, address _zoraMediaAddress) public {
     basePlatformAddress = _basePlatformAddress;
     zoraMediaAddress = _zoraMediaAddress;
   }

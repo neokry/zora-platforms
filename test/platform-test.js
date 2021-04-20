@@ -1,19 +1,25 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { BigNumber } = require("@ethersproject/bignumber");
+const { smockit } = require("@eth-optimism/smock");
 
 describe("Platform", function () {
   before(async function () {
     this.Platform = await ethers.getContractFactory("Platform");
-    this.MockMedia = await ethers.getContractFactory("MockMedia");
+    this.Media = await ethers.getContractFactory("Media");
   });
 
   beforeEach(async function () {
     this.platform = await this.Platform.deploy();
     await this.platform.deployed();
 
-    this.mockMedia = await this.MockMedia.deploy();
-    await this.mockMedia.deployed();
+    const media = await this.Media.deploy(
+      "0xED4C8F9c21c21C787Fec612d73C9683ceF891560"
+    );
+    await media.deployed();
+
+    this.mockMedia = await smockit(media);
+    this.mockMedia.smocked.mintWithSig.will.return();
   });
 
   it("Should mint artwork", async function () {

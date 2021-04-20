@@ -19,7 +19,7 @@ task("accounts", "Prints the list of accounts", async () => {
  */
 module.exports = {
   solidity: {
-    version: "0.8.3",
+    version: "0.6.8",
     settings: {
       outputSelection: {
         "*": {
@@ -40,6 +40,9 @@ module.exports = {
       accounts: {
         mnemonic: process.env.MNEMONIC,
       },
+    },
+    hardhat: {
+      allowUnlimitedContractSize: true,
     },
   },
 };

@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@eth-optimism/smock": "^1.0.1",
-    "@openzeppelin/contracts": "^4.0.0",
+    "@openzeppelin/contracts": "^3.4.1",
+    "@zoralabs/core": "^1.0.3",
     "dotenv": "^8.2.0"
   }
 }

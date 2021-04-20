@@ -1,14 +1,16 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.0;
+pragma solidity 0.6.8;
+pragma experimental ABIEncoderV2;
 
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "./interfaces/IMedia.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import { IMedia } from "@zoralabs/core/dist/contracts/interfaces/IMedia.sol";
+import { IMarket } from "@zoralabs/core/dist/contracts/interfaces/IMarket.sol";
 
 /**
  * @title A platform that keeps track of artworks minted through it.
  * @notice This contract provides an implementation for zora sub platforms with roles.
  */
-contract Platform is AccessControlEnumerable {
+contract Platform is AccessControl {
 
     /* *******
     * Globals
@@ -101,7 +103,7 @@ contract Platform is AccessControlEnumerable {
     /**
      * @notice Mints an artwork with a valid signature.
      */
-    function mintWithSig(IMedia.MediaData memory _data, IMedia.BidShares memory _shares, IMedia.EIP712Signature memory _sig) public onlyOwnerOrCreator {
+    function mintWithSig(IMedia.MediaData memory _data, IMarket.BidShares memory _shares, IMedia.EIP712Signature memory _sig) public onlyOwnerOrCreator {
         ZoraMedia.mintWithSig(msg.sender, _data, _shares, _sig); 
         contentHashes.push(_data.contentHash);
     }
