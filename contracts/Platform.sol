@@ -110,7 +110,7 @@ contract Platform is AccessControlEnumerable {
      * @notice Sets multiple members for a given role. 
      * Utility function used to minimize gas costs.
      */
-    function batchSetRole(bytes32 _role, address[] memory members) public {
+    function batchSetRole(bytes32 _role, address[] memory members) public onlyOwner {
         for (uint256 idx = 0; idx < members.length; idx++) {
             grantRole(_role, members[idx]);
         }
