@@ -23,8 +23,38 @@ describe("PlatformFactory", function () {
 
   it("Should create a platform", async function () {
     await this.platformFactory.createPlatform();
-    const platforms = await this.platformFactory.platforms(0);
-    expect(platforms).is.not.null;
+    const platform = await this.platformFactory.platforms(0);
+    expect(platform).is.not.null;
+  });
+
+  it("Should not init a platform twice", async function () {
+    await this.platformFactory.createPlatform();
+
+    const platformAddress = await this.platformFactory.platforms(0);
+    const platform = await this.Platform.attach(platformAddress);
+
+    expect(platformAddress).is.not.null;
+    await expect(
+      platform.init(
+        "0xa471C9508Acf13867282f36cfCe5c41D719ab78B",
+        "0xED4C8F9c21c21C787Fec612d73C9683ceF891560"
+      )
+    ).to.be.revertedWith("Platform is already initilized");
+  });
+
+  it("Should not init a platform with roles twice", async function () {
+    await this.platformFactory.createPlatformWithRoles([], [], []);
+
+    const platformAddress = await this.platformFactory.platforms(0);
+    const platform = await this.Platform.attach(platformAddress);
+
+    expect(platformAddress).is.not.null;
+    await expect(
+      platform.init(
+        "0xa471C9508Acf13867282f36cfCe5c41D719ab78B",
+        "0xED4C8F9c21c21C787Fec612d73C9683ceF891560"
+      )
+    ).to.be.revertedWith("Platform is already initilized");
   });
 
   it("Should create a platform with roles", async function () {

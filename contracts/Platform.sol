@@ -63,7 +63,7 @@ contract Platform is AccessControl {
      * Sets up zora media contract.
      */
     function init(address owner, address _zoraMediaAddress) public {
-        require(_isInitilized == false);
+        require(_isInitilized == false, "Platform is already initilized");
         _setupRole(DEFAULT_ADMIN_ROLE, owner);
         _setupRole(OWNER_ROLE, owner);
         _setRoleAdmin(CREATOR_ROLE, OWNER_ROLE);
@@ -78,6 +78,9 @@ contract Platform is AccessControl {
      * Sets up zora media contract.
      */
     function initWithRoles(address[] memory _admins, address[] memory _owners, address[] memory _creators, address _zoraMediaAddress) public {
+        
+        require(_isInitilized == false, "Platform is already initilized");
+        
         //Setup Admins
         for(uint idx = 0; idx < _admins.length; idx++) {
             _setupRole(DEFAULT_ADMIN_ROLE, _admins[idx]);

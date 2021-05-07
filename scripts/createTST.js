@@ -1,11 +1,14 @@
 const hre = require("hardhat");
 
 async function main() {
-  const address = "0x2939415C4b26Fa26559e08555f09605bCc6099aE";
+  const PLATFORM_FACTORY_ADDRESS = "0x2939415C4b26Fa26559e08555f09605bCc6099aE";
+
   const PlatformFactory = await hre.ethers.getContractFactory(
     "PlatformFactory"
   );
-  const platformFactory = await PlatformFactory.attach(address);
+  const platformFactory = await PlatformFactory.attach(
+    PLATFORM_FACTORY_ADDRESS
+  );
   const tx = await platformFactory.createPlatform();
   await tx.wait();
 
