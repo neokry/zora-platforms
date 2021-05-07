@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const address = "0xaF6df96cEC9f8237D120a949156d82b8c5e66a74";
+  const address = "0x2939415C4b26Fa26559e08555f09605bCc6099aE";
   const PlatformFactory = await hre.ethers.getContractFactory(
     "PlatformFactory"
   );

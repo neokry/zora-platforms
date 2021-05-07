@@ -50,10 +50,24 @@ contract PlatformFactory is Ownable {
     emit PlatformCreated(msg.sender, instance);
   }
 
+    /**
+  * @notice Allows creating of platforms by cloning the originally deployed platform and sets roles to save gas
+  */
+  function createPlatformWithRoles(address[] memory _admins, address[] memory _owners, address[] memory _creators) public {
+    address instance = Clones.clone(basePlatformAddress);
+    IPlatform(instance).initWithRoles(_admins, _owners, _creators, zoraMediaAddress);
+    platforms.push(instance);
+    emit PlatformCreated(msg.sender, instance);
+  }
+
   /**
   * @notice Allows admin to upgrade platform contract for bugfixes etc.
   */
   function updateBasePlatformAddress(address _basePlatformAddress) public onlyOwner {
     basePlatformAddress = _basePlatformAddress;
+  }
+
+  function getPlatforms() public view returns (address[] memory) {
+    return platforms;
   }
 }

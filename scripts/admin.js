@@ -1,13 +1,13 @@
 const hre = require("hardhat");
 
 async function main() {
-  const address = "0x9a7Be9e59bA99f3b329735e2c0Ad926B9B5D6c86";
+  const address = "0xC06Bc66c4BD7660c255eED07F76681A6312B6F61";
   const Platform = await hre.ethers.getContractFactory("Platform");
   const platform = await Platform.attach(address);
 
   const tx = await platform.grantRole(
     hre.ethers.constants.HashZero,
-    "0xbbB4946160d6609479D5a3904c1994888d14829a"
+    "0x8440cE7672C0e614E40C2c7f7CB70D711fEDAE56"
   );
   await tx.wait();
 
@@ -17,7 +17,7 @@ async function main() {
 
   const tx2 = await platform.grantRole(
     ownerRole,
-    "0xbbB4946160d6609479D5a3904c1994888d14829a"
+    "0x8440cE7672C0e614E40C2c7f7CB70D711fEDAE56"
   );
   await tx2.wait();
 

@@ -71,6 +71,37 @@ contract Platform is AccessControl {
         _isInitilized = true;
     }
 
+    /**
+     * @notice Constructor is not called during clone so an initilize method must be used.
+     * Sets the default roles for specified admins, owners, and creators
+     * Makes creator a sub role with admin being the dominant role
+     * Sets up zora media contract.
+     */
+    function initWithRoles(address[] memory _admins, address[] memory _owners, address[] memory _creators, address _zoraMediaAddress) public {
+        //Setup Admins
+        for(uint idx = 0; idx < _admins.length; idx++) {
+            _setupRole(DEFAULT_ADMIN_ROLE, _admins[idx]);
+            _setupRole(OWNER_ROLE, _admins[idx]);
+        }
+
+        //Setup Owners
+        for (uint256 idx = 0; idx < _owners.length; idx++) {
+            _setupRole(OWNER_ROLE, _owners[idx]);
+        }
+
+        //Setup Artists
+        for (uint256 idx = 0; idx < _creators.length; idx++) {
+            _setupRole(CREATOR_ROLE, _creators[idx]);
+        }
+
+        //Make creator sub role of owner
+        _setRoleAdmin(CREATOR_ROLE, OWNER_ROLE);
+
+        //Setup zora media
+        ZoraMedia = IMedia(_zoraMediaAddress);
+        _isInitilized = true;
+    }
+
     /* **************
     * View Functions
     * **************
@@ -106,6 +137,15 @@ contract Platform is AccessControl {
     function mintWithSig(IMedia.MediaData memory _data, IMarket.BidShares memory _shares, IMedia.EIP712Signature memory _sig) public onlyOwnerOrCreator {
         ZoraMedia.mintWithSig(msg.sender, _data, _shares, _sig); 
         contentHashes.push(_data.contentHash);
+    }
+
+    /**
+     * @notice Adds content hashes that wern't minted through the platform.
+     */
+    function addContentHashes(bytes32[] memory _newContentHashes) public onlyOwner {
+        for (uint256 idx = 0; idx < _newContentHashes.length; idx++) {
+            contentHashes.push(_newContentHashes[idx]);
+        }
     }
 
     /**
